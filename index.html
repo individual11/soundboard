@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Subway Soundboard</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse fixed-top">
+      <a class="navbar-brand" href="#">Subway Order DJ</a>
+    </nav>
+    <div class="container" id="container1">
+      <div class="row">
+        <div class="col-12">
+          <p>Click to add a new ingredient to your sub mashup.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3 click_ingredient" id="lettuce" onclick="pushFunction(this.id)">
+          <div class="ingredient">Lettuce</div>
+        </div>
+        <div class="col-3 click_ingredient" id="tomato" onclick="pushFunction(this.id)">
+          <div class="ingredient">Tomato</div>
+        </div>
+        <div class="col-3 click_ingredient" id="salami" onclick="pushFunction(this.id)">
+          <div class="ingredient">Salami</div>
+        </div>
+        <div class="col-3 click_ingredient" id="onion" onclick="pushFunction(this.id)">
+          <div class="ingredient">Onion</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="btn btn-secondary" id="playback">Playback</div>
+        </div>
+      </div>
+      <audio id="lettuceAudio" src="/lettuce.mp3"></audio>
+      <audio id="salamiAudio" src="/salami.mp3"></audio>
+      <audio id="tomatoAudio" src="/tomato.mp3"></audio>
+      <audio id="onionAudio" src="/onion.mp3"></audio>
+      <!-- <audio id="orderAudio" src="/order.mp3"></audio> -->
+      <p id="demo"></p>
+      </div>
+    </body>
+</html>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var offset = $('.navbar').height();
+    $('#container1').css("margin-top", 2*offset + "px")
+
+    var socket = io();
+    var ingredients = [];
+
+    document.getElementById("demo").innerHTML = ingredients;
+
+    function pushFunction(clicked_id) {
+        ingredients.push(clicked_id + ".mp3")
+        document.getElementById("demo").innerHTML = ingredients;
+        document.getElementById(clicked_id+"Audio").play();
+    }
+
+      $(function () {
+        $('#playback').click(function() {
+          socket.emit('message', ingredients);
+          return false;
+
+          setTimeout(playAll, 3000);
+        });
+      });
+
+      // function playAll() {
+      //     document.getElementById("orderAudio").play();
+      // }
+</script>
+</body>
+</html>

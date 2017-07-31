@@ -1,0 +1,21 @@
+*{
+/*font-family:Arial;*/
+/*font-size: 0pt;*/
+}
+
+.ingredient{
+  height: 60px;
+  background: pink;
+  margin-bottom: 30px;
+}
+
+.click_ingredient{
+  cursor: pointer;
+}
+
+.navbar-brand{
+  color: #F2B700 !important;
+}
+.navbar {
+    background-color: #008938 !important;
+}
